@@ -88,13 +88,32 @@ export const KnowledgeSchema = z.object({
     sources: Strings.min(1), caveats: Strings,
 }).strict();
 export type Knowledge = z.infer<typeof KnowledgeSchema>;
+/** Defaults are resolved at dispatch so old checkpoints retain their meaning. */
+export const GenerationSchema = z.object({
+    reasoning: z.union([z.enum(["auto", "default", "off", "minimal", "low", "medium", "high", "xhigh", "max"]), z.number().int().min(1).max(100)]).optional(),
+    maxOutputTokens: z.number().int().min(128).max(524288).optional(),
+    contextWindow: z.number().int().min(1024).max(2000000).optional(),
+    thinkingBudget: z.number().int().min(128).max(523264).optional(),
+    finalAnswerReserve: z.number().int().min(128).max(32768).optional(),
+    temperature: z.number().min(0).max(2).optional(),
+    topP: z.number().min(0).max(1).optional(),
+    topK: z.number().int().min(0).max(1000).optional(),
+    minP: z.number().min(0).max(1).optional(),
+    structuredOutput: z.enum(["prompt", "json-schema"]).optional(),
+}).strict();
+export type Generation = z.infer<typeof GenerationSchema>;
+/** More specific fields override less specific fields; model selection remains separate. */
+export function generationFor(config: Config, role: string): Generation {
+    const [stage, suffix] = role.split("/");
+    return Object.assign({}, config.generation.default, config.generation[stage!], suffix ? config.generation[suffix] : undefined, config.generation[role]);
+}
 export const ConfigSchema = z.object({
     widths: z.array(z.number().int().min(1).max(128)).min(1).max(8).default([4, 2, 1]),
     sampleSize: z.number().int().min(1).max(128).default(3),
     reviewers: z.number().int().min(1).max(4).default(1),
     concurrency: z.number().int().min(1).max(16).default(3),
     maxCalls: z.number().int().min(1).max(10000).default(160),
-    maxOutputTokens: z.number().int().min(128).max(32768).default(4096),
+    maxOutputTokens: z.number().int().min(128).max(524288).default(4096),
     maxReservedOutputTokens: z.number().int().min(128).max(100000000).default(655360),
     maxInputChars: z.number().int().min(1000).max(2000000).default(240000),
     timeoutMs: z.number().int().min(10).max(900000).default(120000),
@@ -102,6 +121,8 @@ export const ConfigSchema = z.object({
     maxRounds: z.number().int().min(1).max(100).default(5),
     seed: z.number().int().min(0).max(0xffffffff).default(1729),
     models: z.record(z.string(), z.object({ provider: Text, id: Text }).strict()).default({}),
+    generation: z.record(z.string(), GenerationSchema).default({}),
+    localOnly: z.boolean().default(false),
 }).strict().refine(c => c.widths.at(-1) === 1, "The aggregation tree must end in one root");
 export type Config = z.infer<typeof ConfigSchema>;
 export const DEFAULT_CONFIG = ConfigSchema.parse({});
