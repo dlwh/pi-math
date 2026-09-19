@@ -1,5 +1,7 @@
 # User guide
 
+New to models or agents? Begin with the [step-by-step onboarding guide](ONBOARDING.md).
+
 ## What the human controls
 
 Pi Math organizes exploration and review; humans choose the target, approve a strategy and proof architecture, judge the evidence, and accept or reject the final argument. Only explicit `/math` commands can approve a route or plan, change an existing target, promote a premise, or record acceptance. Those operations are absent from model-callable tool schemas. Ordinary Pi tools remain subject to Pi's own permissions; this extension is not a security boundary against a parent agent with general shell access.
@@ -11,6 +13,9 @@ At each gate, use `/math status` and `/math export`. The Markdown dossier contai
 | Command | Effect |
 | --- | --- |
 | `/math help` | Show concise help. |
+| `/math setup [preset] [--apply]` | List or preview hosted/local presets; explicitly apply a cautious provider merge and session inference settings. |
+| `/math doctor [--json]` | Check declared model/auth/scope/context/budgets offline; show the parent separately. |
+| `/math doctor --probe [--json]` | Send two bounded synthetic generation/review requests, at most 8,192 reserved output tokens; hosted calls may be billed. |
 | `/math start <question>` | Start a proof project; retain the previous project as an archived object. |
 | `/math status` | Inspect the current branch's state. |
 | `/math step` | Advance one phase or one eligible wave of sections. |
@@ -44,6 +49,8 @@ Tool text is capped at 12,000 characters and points to the full checkpoint. The 
 
 ## Configuration and budgets
 
+For models, start with [the supplied preset examples](../examples/providers) and [generation reference](MODELS.md#generation-settings). `/math setup` replaces only inference settings; it preserves discovery/Lean settings, and local presets enforce loopback worker endpoints with no redirect fallback. Select the parent separately in `/model`.
+
 Settings files replace the previous settings; unspecified keys receive defaults. Start with [symbolic-config.json](../examples/symbolic-config.json), or this model-backed configuration:
 
 ```json
@@ -69,7 +76,9 @@ Settings files replace the previous settings; unspecified keys receive defaults.
 }
 ```
 
-Limits are shared across all workers in **one step/run invocation**. A later invocation starts a fresh inference budget; it does not reset proof rounds or local attempts. Each dispatched call reserves its maximum output tokens even if it fails or returns less. There are no hidden provider retries. Call reservations occur before dispatch under a shared semaphore. A deadline aborts the whole broker, including queued calls, so a provider that ignores cancellation cannot cause new work to launch.
+Limits are shared across all workers in **one step/run invocation**. A later invocation starts a fresh inference budget; it does not reset proof rounds or local attempts. Per-role generation fields merge default → stage → suffix → full role; model overrides resolve as whole entries. The parent thinking setting is not inherited. Effective settings are attached to successful worker audit responses.
+
+Each dispatched call reserves its resolved maximum output tokens even if it fails or returns less. There are no hidden provider retries. Call reservations occur before dispatch under a shared semaphore. A deadline aborts the whole broker, including queued calls, so a provider that ignores cancellation cannot cause new work to launch.
 
 These are call/output limits, not a dollar cap. Input tokens, provider thinking-token conventions and cancellation billing depend on the provider. Reported usage/cost is recorded when supplied; interrupted calls may not report a charge. A run can stop midway through a stage. Completed artifacts remain auditable; an incomplete aggregation is recomputed on retry. Completed proof sections survive unrelated failures.
 

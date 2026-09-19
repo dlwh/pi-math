@@ -26,6 +26,8 @@ The initial release includes [demo evidence](evidence/demo.json), its [independe
 | Proof workflow | Route/plan/final human gates, unstable readiness, local retry, global repair, branch checkpoint replay and target amendment |
 | Discovery | Exact empirical counterexamples; 100 seeded linear certificate cases and tampering; AST types/bounds; vacuity, known premises and tautologies; skeptical updates; failed proof feedback and ablations; stale certificates |
 | External execution | Actual subprocess success/failure, missing executable, output cap, cancellation and timeout; deterministic Lean source and axiom-report validation |
+| Model onboarding | Every preset loaded by Pi and sent through its real HTTP client to a mock server; reasoning/numeric controls, serialized cap/tool/model guards, streaming and error responses, disconnects/timeouts, setup merges/backups, custom agent directory, diagnostic probes, old settings, and generated examples |
+| Evaluation | Dry-run CLI, strict bounds, exact counterexample witnesses, retained failures, rubric isolation, and blank human judgments |
 | Pi integration | Real published extension loader and registration; command/tool schemas; branch restoration; initialization race; registry adapter contract; portable exports; actual symbolic-policy round |
 
 Read the tests alongside `docs/ADVERSARIAL-PLAN-REVIEW.md`. Scripted workers deliberately return controlled failures to check harness transitions. They are not substitutes for testing live mathematical reasoning. Optional `npm run test:coverage` produces line/branch coverage; coverage percentages alone do not establish correctness.
@@ -52,6 +54,10 @@ The exact algebra checker is a small trusted computing base. It is separate from
 | Regression only | All data visible, controls fixed, no proof feedback |
 
 With the supplied fixture and baseline, the initial run produced five successful full-loop episodes and zero for each ablation. Inspect the discovered statements: a successful episode is a nondegenerate certified consequence of supplied premises, not necessarily the intended Euler identity. The fixture and heuristic are deliberately small. This is an engineering regression experiment, with no statistical significance or comparison to the papers' trained systems claimed. See `test-output/ablations/report.json` to assess what changed and why.
+
+## Model onboarding verification
+
+Run `npm run evaluate -- --preset local-ollama` for a credential-free preview; it makes no model calls. [EVALUATION.md](EVALUATION.md) gives the explicit live invocation, provenance requirements, matched-cap comparisons, and human adjudication procedure. [ONBOARDING-VALIDATION.md](ONBOARDING-VALIDATION.md) distinguishes executed software checks from pending provider/hardware exercises. The six-case runner checks workers; a full proof session and parent tool invocation remain separate live acceptance exercises.
 
 ## Optional live acceptance exercises
 
