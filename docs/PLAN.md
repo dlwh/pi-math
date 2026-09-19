@@ -23,6 +23,8 @@ Sources read: [Stellar Colosseum, v2](https://arxiv.org/html/2609.15983v2), [Dis
 
 Dependencies: 1 → 2 → 3 → 4; 2 + 3 → 5; 4 + 5 → 6 → 7 → 8. Each chunk is committed separately. Issue definitions are maintained in `docs/issues.json`; GitHub issue numbers are recorded after creation rather than guessed.
 
+The prepared specifications were filed as GitHub issues after the connection gained access to the new private repository: [#1 research and plan](https://github.com/hammer/pi-math/issues/1), [#2 state and DAG](https://github.com/hammer/pi-math/issues/2), [#3 inference](https://github.com/hammer/pi-math/issues/3), [#4 proof workflow](https://github.com/hammer/pi-math/issues/4), [#5 discovery and proof evidence](https://github.com/hammer/pi-math/issues/5), [#6 Pi integration](https://github.com/hammer/pi-math/issues/6), [#7 examples and documentation](https://github.com/hammer/pi-math/issues/7), [#8 adversarial review and release](https://github.com/hammer/pi-math/issues/8).
+
 ## Architecture
 
 The deterministic core owns transitions and evidence. A model adapter only returns schema-validated proposals. A shared scheduler bounds concurrency and inference; worker contexts are independent and have no tools. Stage inference generates diverse candidates, separately critiques each, synthesizes independently sampled overlapping groups, and critiques synthesized nodes again. Structured objections survive until a separate reviewer supplies a reason to discharge them.

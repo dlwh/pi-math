@@ -1,0 +1,53 @@
+{
+  "scope": "Exact educational computation; candidates and rank-nullity premises are supplied, not rediscovered.",
+  "naive": {
+    "statement": "(((V − E) + F) = 2)",
+    "visibleAccuracy": 1,
+    "evidence": {
+      "tested": 6,
+      "counterexamples": [
+        "torus",
+        "two-spheres"
+      ],
+      "allDataTrue": false,
+      "accuracy": 0.6666666666666666,
+      "nondegenerate": true,
+      "reasons": []
+    }
+  },
+  "corrected": {
+    "statement": "(((V − E) + F) = (((V − r1) − (n1 − r2)) + n2))",
+    "premises": [
+      "((r1 + n1) = E)",
+      "((r2 + n2) = F)"
+    ],
+    "evidence": {
+      "tested": 6,
+      "counterexamples": [],
+      "allDataTrue": true,
+      "accuracy": 1,
+      "nondegenerate": true,
+      "reasons": []
+    },
+    "proof": {
+      "outcome": "certified",
+      "rho": 1,
+      "statementHash": "3074d3a0bf71dfc8c0fed9cdc127e20b1fd678502d2c7a922119254218f29f4b",
+      "premisesHash": "035194859ba2fb2b24acdd404d0bab2ec091ec231a7ad6ec434f8ef5042c42f5",
+      "explanation": "Exact rational linear-combination certificate checked against the stated integer formula and premises",
+      "certificate": {
+        "version": 1,
+        "statementHash": "3074d3a0bf71dfc8c0fed9cdc127e20b1fd678502d2c7a922119254218f29f4b",
+        "premisesHash": "035194859ba2fb2b24acdd404d0bab2ec091ec231a7ad6ec434f8ef5042c42f5",
+        "tree": {
+          "kind": "linear",
+          "weights": [
+            "1/1",
+            "-1/1"
+          ]
+        }
+      }
+    }
+  },
+  "translation": "Euler characteristic equals the alternating sum of the displayed dimension expressions, conditional on the two rank-nullity premises. This does not construct chain complexes or independently prove topology facts."
+}

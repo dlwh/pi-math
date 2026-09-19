@@ -75,6 +75,8 @@ An optional Lean adapter runs a deterministic translation in a locally configure
 - [Dataset, expression language, and proof evidence](docs/DATA.md)
 - [Verification and reproducible review](docs/VERIFY.md)
 - [Implementation plan](docs/PLAN.md) and [adversarial plan review](docs/ADVERSARIAL-PLAN-REVIEW.md)
+- [Adversarial code review and verification record](docs/ADVERSARIAL-CODE-REVIEW.md)
+- [Executed example evidence](docs/evidence/demo.json) and [ablation trajectories](docs/evidence/ablations.json)
 - [Incremental work issues](https://github.com/hammer/pi-math/issues?q=is%3Aissue)
 
 Research files contain your mathematical questions and full worker prompts/responses. They stay in the current project's `.pi/math/` unless you export or share them. Preserve that directory with the corresponding Pi session to resume its checkpoints. The repository ignores it by default.

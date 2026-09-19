@@ -1,0 +1,114 @@
+{
+  "features": [
+    "V",
+    "E",
+    "F",
+    "r1",
+    "n1",
+    "r2",
+    "n2"
+  ],
+  "expression": {
+    "kind": "eq",
+    "left": {
+      "kind": "add",
+      "left": {
+        "kind": "sub",
+        "left": {
+          "kind": "var",
+          "name": "V"
+        },
+        "right": {
+          "kind": "var",
+          "name": "E"
+        }
+      },
+      "right": {
+        "kind": "var",
+        "name": "F"
+      }
+    },
+    "right": {
+      "kind": "add",
+      "left": {
+        "kind": "sub",
+        "left": {
+          "kind": "sub",
+          "left": {
+            "kind": "var",
+            "name": "V"
+          },
+          "right": {
+            "kind": "var",
+            "name": "r1"
+          }
+        },
+        "right": {
+          "kind": "sub",
+          "left": {
+            "kind": "var",
+            "name": "n1"
+          },
+          "right": {
+            "kind": "var",
+            "name": "r2"
+          }
+        }
+      },
+      "right": {
+        "kind": "var",
+        "name": "n2"
+      }
+    }
+  },
+  "premises": [
+    {
+      "kind": "eq",
+      "left": {
+        "kind": "add",
+        "left": {
+          "kind": "var",
+          "name": "r1"
+        },
+        "right": {
+          "kind": "var",
+          "name": "n1"
+        }
+      },
+      "right": {
+        "kind": "var",
+        "name": "E"
+      }
+    },
+    {
+      "kind": "eq",
+      "left": {
+        "kind": "add",
+        "left": {
+          "kind": "var",
+          "name": "r2"
+        },
+        "right": {
+          "kind": "var",
+          "name": "n2"
+        }
+      },
+      "right": {
+        "kind": "var",
+        "name": "F"
+      }
+    }
+  ],
+  "certificate": {
+    "version": 1,
+    "statementHash": "3074d3a0bf71dfc8c0fed9cdc127e20b1fd678502d2c7a922119254218f29f4b",
+    "premisesHash": "035194859ba2fb2b24acdd404d0bab2ec091ec231a7ad6ec434f8ef5042c42f5",
+    "tree": {
+      "kind": "linear",
+      "weights": [
+        "1/1",
+        "-1/1"
+      ]
+    }
+  }
+}

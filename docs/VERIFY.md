@@ -15,6 +15,8 @@ npm pack --dry-run
 
 The lockfile fixes the development/runtime dependency graph. `--ignore-scripts` avoids unnecessary install hooks. No model credentials or Lean installation are required for these checks. The test runner is Node's built-in test runner with `tsx` as a TypeScript import hook. CI uploads example output for inspection.
 
+The initial release includes [demo evidence](evidence/demo.json), its [independently verifiable certificate](evidence/certificate.json), and the [complete ablation trajectories](evidence/ablations.json). A repeated local ablation matched byte-for-byte. Run `npm run verify:certificate -- docs/evidence/certificate.json` to check the committed certificate directly.
+
 ## What the tests actually exercise
 
 | Area | Tests and failure cases |

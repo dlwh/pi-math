@@ -1,0 +1,3509 @@
+{
+  "version": 1,
+  "seeds": [
+    11,
+    29,
+    47,
+    71,
+    101
+  ],
+  "roundLimit": 3,
+  "caveat": "Small deterministic engineering ablation using a bounded enumerator and exact linear prover on hand-written data. No learned MADDPG policies, PySR, live models, statistical significance, or replication of paper results is claimed. All modes still measure proof outcomes; the feedback ablation withholds them from the policy. A success is relative to supplied premises, not a new theorem.",
+  "summary": [
+    {
+      "mode": "full",
+      "episodes": 5,
+      "successfulEpisodes": 5,
+      "meanDistinctConjectures": 2,
+      "meanVisibleAtEnd": 6
+    },
+    {
+      "mode": "no-skeptic",
+      "episodes": 5,
+      "successfulEpisodes": 0,
+      "meanDistinctConjectures": 1,
+      "meanVisibleAtEnd": 6
+    },
+    {
+      "mode": "no-proof-feedback",
+      "episodes": 5,
+      "successfulEpisodes": 0,
+      "meanDistinctConjectures": 2,
+      "meanVisibleAtEnd": 6
+    },
+    {
+      "mode": "regression-only",
+      "episodes": 5,
+      "successfulEpisodes": 0,
+      "meanDistinctConjectures": 1,
+      "meanVisibleAtEnd": 6
+    }
+  ],
+  "results": [
+    {
+      "seed": 11,
+      "mode": "full",
+      "status": "candidate-found",
+      "rounds": 2,
+      "checkedNondegenerate": 1,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "(((E − n1) − r1) = 0)",
+          "featureCount": 4,
+          "priors": {
+            "sub": 0.02
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 11,
+      "mode": "no-skeptic",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 11,
+      "mode": "no-proof-feedback",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.7557935243239626,
+                0.7649732041172683,
+                0.8040592820616439,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.7950788179878145,
+                0.9253883480560035,
+                0.7690111487172544,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 11,
+      "mode": "regression-only",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 29,
+      "mode": "full",
+      "status": "candidate-found",
+      "rounds": 2,
+      "checkedNondegenerate": 1,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "(((E − n1) − r1) = 0)",
+          "featureCount": 4,
+          "priors": {
+            "sub": 0.02
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 29,
+      "mode": "no-skeptic",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 29,
+      "mode": "no-proof-feedback",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.6053060124395415,
+                0.5751512026181445,
+                0.6566708040190861,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.6246224077185616,
+                0.6935916380025446,
+                0.6729777639266104,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 29,
+      "mode": "regression-only",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 47,
+      "mode": "full",
+      "status": "candidate-found",
+      "rounds": 2,
+      "checkedNondegenerate": 1,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "(((E − n1) − r1) = 0)",
+          "featureCount": 4,
+          "priors": {
+            "sub": 0.02
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 47,
+      "mode": "no-skeptic",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 47,
+      "mode": "no-proof-feedback",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.81474843272008,
+                0.5481876109261066,
+                0.7359704114496708,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.772241145838052,
+                0.7502814489416778,
+                0.8280728051904589,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 47,
+      "mode": "regression-only",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 71,
+      "mode": "full",
+      "status": "candidate-found",
+      "rounds": 2,
+      "checkedNondegenerate": 1,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "(((E − n1) − r1) = 0)",
+          "featureCount": 4,
+          "priors": {
+            "sub": 0.02
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 71,
+      "mode": "no-skeptic",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 71,
+      "mode": "no-proof-feedback",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.8813441612292081,
+                0.5798037099884823,
+                0.8024754206417128,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8392096550669521,
+                0.7446418039035052,
+                0.5794704215368256,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 71,
+      "mode": "regression-only",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 101,
+      "mode": "full",
+      "status": "candidate-found",
+      "rounds": 2,
+      "checkedNondegenerate": 1,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "(((E − n1) − r1) = 0)",
+          "featureCount": 4,
+          "priors": {
+            "sub": 0.02
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 101,
+      "mode": "no-skeptic",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 101,
+      "mode": "no-proof-feedback",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 2,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((n1 + n2) = F)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "unknown",
+          "counterexamples": [
+            "torus",
+            "sphere-and-torus"
+          ],
+          "nondegenerate": true,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                1,
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                1,
+                0,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                1,
+                0,
+                0
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {
+            "sub": 0
+          },
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                0.5678239298285916,
+                0.8824009749805555,
+                0.7703041547210887,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                0.8215082074748352,
+                0.6920404831180349,
+                0.8466784599004313,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "seed": 101,
+      "mode": "regression-only",
+      "status": "exhausted",
+      "rounds": 3,
+      "checkedNondegenerate": 0,
+      "distinctConjectures": 1,
+      "visibleAtEnd": 6,
+      "trajectory": [
+        {
+          "round": 1,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "statement": "((r1 + n1) = E)",
+          "featureCount": 3,
+          "priors": {},
+          "proof": "certified",
+          "counterexamples": [],
+          "nondegenerate": false,
+          "weightsBefore": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ],
+          "weightsAfter": [
+            {
+              "id": "initial-a",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            {
+              "id": "initial-b",
+              "weights": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
