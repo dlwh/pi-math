@@ -10,13 +10,14 @@ export interface TreeOptions<T> {
   validate?: (value: T) => void;
   intrinsicIssues?: (value: T) => z.infer<typeof IssueSchema>[];
   preserveAllObjections?: boolean;
+  inheritedObjections?: Objection[];
 }
 export class StageRunner {
   private serial = 0;
   private runId = randomUUID();
   private random: () => number;
   readonly artifacts: Bundle<unknown>[] = [];
-  constructor(readonly broker: Broker, readonly config: Config = broker.config) { this.random = seededRandom(config.seed); }
+  constructor(readonly broker: Broker, readonly config: Config = broker.config, readonly onArtifact: (artifact: Bundle<unknown>)=>Promise<void> = async()=>{}) { this.random = seededRandom(config.seed); }
   async run<T>(stage: string, instruction: string, input: unknown, schema: z.ZodType<T>, options: TreeOptions<T> = {}): Promise<Bundle<T>> {
     const stageId = `s-${this.runId}-${++this.serial}`;
     const targetObjections = new Map<string, Objection>();
@@ -42,12 +43,13 @@ export class StageRunner {
       for (const o of objections) if (o.scope === "target" || options.preserveAllObjections) targetObjections.set(o.id,o);
       const result: Bundle<T> = {id,value,objections,reviews,parents};
       this.artifacts.push(result);
+      await this.onArtifact(result);
       return result;
     };
     let population = await Promise.all(Array.from({length:this.config.widths[0]!}, async (_,i) => {
       const id = `${stageId}-leaf-${i}`;
       const value = await this.broker.ask(`${stage}/generate`,instruction,{task:input,perspective:PERSPECTIVES[i%PERSPECTIVES.length],candidate:i},schema);
-      return review(id,value,[],[],[]);
+      return review(id,value,options.inheritedObjections??[],[],[]);
     }));
     for (let level=1;level<this.config.widths.length;level++) {
       const groups = Array.from({length:this.config.widths[level]!},()=>sample(population,this.config.sampleSize,this.random));

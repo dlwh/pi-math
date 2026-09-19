@@ -18,7 +18,7 @@ function fake(options:{badGate?:boolean;failFirst?:boolean;repair?:boolean}={}):
   let failed=false,verified=0;
   return {async complete(r){const input=JSON.parse(r.prompt),t=input.task;
     if(r.role==="curator")return {text:'{"entries":[]}'};
-    if(r.role.endsWith("/critic"))return {text:JSON.stringify({verdict:"accept",summary:"Fixture review",issues:[],resolved:[]})};
+    if(r.role.endsWith("/critic"))return {text:JSON.stringify({verdict:"accept",summary:"Fixture review",issues:[],resolved:(input.inheritedObjections??[]).map((o:{id:string})=>({id:o.id,reason:"Scripted reviewer checks the repaired fixture"}))})};
     const role=r.role.split("/")[0];let value:unknown;
     if(role==="explore")value={target:t.problem,mechanism:"Algebra",hypotheses:t.assumptions,lemmas:["First","Second"],bottleneck:"Combine",gateway:{test:"Check parity",ifPass:"Prove",ifFail:"Refute"},alternatives:[],obligations:[],evidence:[]};
     else if(role==="gate")value={decision:"ready",stableArchitecture:!options.badGate,reason:"Fixture architecture",obligations:[]};

@@ -86,7 +86,7 @@ export class ProofEngine {
         case "explore": {
           if(s.round>=s.config.maxRounds){s.phase="blocked";s.failure="Exploration round limit reached";break;}
           s.round++;
-          s.strategy=await this.runner.run("explore",PROMPTS.explore,this.context(),StrategySchema,{validate:value=>{
+          s.strategy=await this.runner.run("explore",PROMPTS.explore,this.context(),StrategySchema,{inheritedObjections:s.strategy?.objections??[],validate:value=>{
             if(value.target!==s.problem)throw new Error("Strategy changed the target");
             if(!sameAssumptions(value.hypotheses,s.assumptions))throw new Error("Strategy changed the hypotheses");
             if(new Set(value.obligations.map(o=>o.id)).size!==value.obligations.length)throw new Error("Duplicate obligations");
@@ -121,7 +121,7 @@ export class ProofEngine {
             if(progress.candidate)progress.previous.push(progress.candidate);
             const candidate=await this.runner.run("section",PROMPTS.section,{...this.context(),assigned:task,
               dependencies:task.dependsOn.map(d=>({task:s.plan!.sections.find(t=>t.id===d),solution:s.sections[d]!.candidate})),
-              priorSection:progress.candidate??progress.previous.at(-1)??null},SectionSchema,{validate:value=>{
+              priorSection:progress.candidate??progress.previous.at(-1)??null},SectionSchema,{inheritedObjections:[...(progress.candidate?.objections??progress.previous.at(-1)?.objections??[]),...(s.verification?.objections.filter(o=>o.sections.includes(id))??[])],validate:value=>{
                 if(value.usedDependencies.some(d=>!task.dependsOn.includes(d)))throw new Error("Section used an undeclared dependency");
                 if(!sameAssumptions(value.assumptions,s.assumptions))throw new Error("Section changed the hypotheses");
               }});
@@ -144,6 +144,7 @@ export class ProofEngine {
             validate:value=>{for(const defect of value.defects){if(defect.sections.some(id=>!ids.has(id)))throw new Error("Verifier localized a defect to an unknown section");if(defect.scope==="section"&&!defect.sections.length)throw new Error("Unlocalized section defect");}},
             intrinsicIssues:value=>value.defects,
             preserveAllObjections:true,
+            inheritedObjections:s.verification?.objections??[],
           });
           const v=s.verification.value;
           const central=[...v.defects,...s.verification.objections].some(d=>["target","strategy"].includes(d.scope)&&d.severity!=="minor");
