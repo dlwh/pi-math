@@ -1,0 +1,20 @@
+{
+  "description": "Integer dimensions, ranks and nullities for small triangulated surfaces; examples are an educational fixture, not the paper's dataset.",
+  "features": ["V", "E", "F", "r1", "n1", "r2", "n2"],
+  "rows": [
+    {"id":"tetrahedron","values":{"V":4,"E":6,"F":4,"r1":3,"n1":3,"r2":3,"n2":1}},
+    {"id":"octahedron","values":{"V":6,"E":12,"F":8,"r1":5,"n1":7,"r2":7,"n2":1}},
+    {"id":"icosahedron","values":{"V":12,"E":30,"F":20,"r1":11,"n1":19,"r2":19,"n2":1}},
+    {"id":"torus","values":{"V":9,"E":27,"F":18,"r1":8,"n1":19,"r2":17,"n2":1}},
+    {"id":"two-spheres","values":{"V":8,"E":12,"F":8,"r1":6,"n1":6,"r2":6,"n2":2}},
+    {"id":"sphere-and-torus","values":{"V":13,"E":33,"F":22,"r1":11,"n1":22,"r2":20,"n2":2}}
+  ],
+  "premises": [
+    {"kind":"eq","left":{"kind":"add","left":{"kind":"var","name":"r1"},"right":{"kind":"var","name":"n1"}},"right":{"kind":"var","name":"E"}},
+    {"kind":"eq","left":{"kind":"add","left":{"kind":"var","name":"r2"},"right":{"kind":"var","name":"n2"}},"right":{"kind":"var","name":"F"}}
+  ],
+  "patches": [
+    {"id":"initial-a","weights":[1,1,0.5,0,0,0]},
+    {"id":"initial-b","weights":[0.5,1,1,0,0,0]}
+  ]
+}
