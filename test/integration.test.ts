@@ -4,7 +4,7 @@ import { mkdtemp, rm, writeFile, readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { Check } from "typebox/value";
-import { discoverAndLoadExtensions, type ExtensionContext, type ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import { discoverAndLoadExtensions, ModelRuntime, ModelRegistry, type ExtensionContext, type ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AssistantMessage, Context } from "@earendil-works/pi-ai";
 import { ConfigSchema } from "../src/schema.ts";
 import { PiWorker } from "../src/adapter.ts";
@@ -48,6 +48,34 @@ test("published Pi loader registers four tools and human-only commands without s
         assert.deepEqual(h.notifications, []);
     }
     finally {
+        await h.cleanup();
+    }
+});
+test("setup and doctor commands use Pi's custom agent directory and retain non-inference settings", async () => {
+    const h = await harness(), prior = process.env.PI_CODING_AGENT_DIR;
+    const agentDir = join(h.cwd, "custom-agent");
+    process.env.PI_CODING_AGENT_DIR = agentDir;
+    try {
+        const runtime = await ModelRuntime.create({ modelsPath: join(agentDir, "models.json"), authPath: join(agentDir, "auth.json"), modelsStorePath: join(agentDir, "models-store.json"), allowModelNetwork: false });
+        Object.assign(h.ctx, { modelRegistry: new ModelRegistry(runtime) });
+        await writeFile(join(h.cwd, "settings.json"), JSON.stringify({ discoveryPolicy: "symbolic" }));
+        await h.command("config settings.json");
+        await h.command("setup local-ollama");
+        await assert.rejects(readFile(join(agentDir, "models.json"), "utf8"), /ENOENT/);
+        await h.command("setup local-ollama --apply");
+        const saved = await restoreWorkbench(new ObjectStore(h.cwd), h.getBranch());
+        assert.equal(saved.settings.discoveryPolicy, "symbolic");
+        assert.equal(saved.settings.inference.localOnly, true);
+        assert.equal(saved.settings.inference.models.default!.provider, "math-ollama");
+        await h.command("doctor --json");
+        const report = JSON.parse(h.messages.at(-1)!);
+        assert.equal(report.ok, true);
+        assert.equal(report.parent, null);
+        assert.deepEqual(h.notifications, []);
+        await h.command("setup local-ollama --unknown");
+        assert.match(h.notifications.at(-1)!, /Use \/math setup/);
+    } finally {
+        if (prior === undefined) delete process.env.PI_CODING_AGENT_DIR; else process.env.PI_CODING_AGENT_DIR = prior;
         await h.cleanup();
     }
 });

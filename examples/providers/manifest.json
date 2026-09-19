@@ -1,0 +1,203 @@
+{
+  "revision": "2026-09-19",
+  "presets": [
+    {
+      "id": "hosted-value",
+      "title": "DeepSeek V4.1 Flash",
+      "where": "hosted",
+      "testedPi": "0.85.1",
+      "runtimeRevision": "OpenRouter service; record upstream route at evaluation time",
+      "license": "MIT",
+      "description": "Uses an OpenRouter API balance. Begin with the small workflow; raise budgets deliberately.",
+      "model": {
+        "provider": "openrouter",
+        "id": "deepseek/deepseek-v4.1-flash"
+      },
+      "sources": [
+        "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash"
+      ],
+      "memory": "No model-sized local memory required",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "hosted-kimi",
+      "title": "Kimi K3",
+      "where": "hosted",
+      "testedPi": "0.85.1",
+      "runtimeRevision": "OpenRouter service; record upstream route at evaluation time",
+      "license": "Kimi K3 License",
+      "description": "Uses an OpenRouter API balance. Begin with the small workflow; raise budgets deliberately.",
+      "model": {
+        "provider": "openrouter",
+        "id": "moonshotai/kimi-k3"
+      },
+      "sources": [
+        "https://huggingface.co/moonshotai/Kimi-K3"
+      ],
+      "memory": "No model-sized local memory required",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "hosted-qwen",
+      "title": "Qwen3.8 released weights",
+      "where": "hosted",
+      "testedPi": "0.85.1",
+      "runtimeRevision": "OpenRouter service; record upstream route at evaluation time",
+      "license": "Qwen3.8-Max License",
+      "description": "Uses an OpenRouter API balance. Begin with the small workflow; raise budgets deliberately.",
+      "model": {
+        "provider": "openrouter",
+        "id": "qwen/qwen3.8-2.4t-a95b"
+      },
+      "sources": [
+        "https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B"
+      ],
+      "memory": "No model-sized local memory required",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "local-ollama",
+      "title": "Qwen3.8 27B via Ollama",
+      "where": "local",
+      "description": "Easy local entry after installing Ollama and creating the context-sized model.",
+      "testedPi": "0.85.1",
+      "license": "Apache-2.0",
+      "runtimeRevision": "Record installed runtime version; live validation pending",
+      "model": {
+        "provider": "math-ollama",
+        "id": "pi-math-qwen38"
+      },
+      "sources": [
+        "https://ollama.com/library/qwen3.8"
+      ],
+      "memory": "About 18 GB download; plan for 24–32+ GB available GPU/unified memory, then measure",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "local-small",
+      "title": "gpt-oss 20B via Ollama",
+      "where": "local",
+      "description": "Lower-memory baseline; do not expect the hosted models' proof quality.",
+      "testedPi": "0.85.1",
+      "license": "Apache-2.0",
+      "runtimeRevision": "Record installed runtime version; live validation pending",
+      "model": {
+        "provider": "math-ollama",
+        "id": "pi-math-gpt-oss"
+      },
+      "sources": [
+        "https://huggingface.co/openai/gpt-oss-20b"
+      ],
+      "memory": "Model card describes 16 GB deployment; context and other apps still need headroom",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "local-unsloth",
+      "title": "Unsloth Qwen3.8 27B GGUF",
+      "where": "local",
+      "description": "Advanced llama.cpp route. Use the exact quantization and --alias in the local guide.",
+      "testedPi": "0.85.1",
+      "license": "Apache-2.0",
+      "runtimeRevision": "llama.cpp 5b59b83f4e2101ea173d4f853a0522d9971f48c6",
+      "model": {
+        "provider": "math-llama",
+        "id": "pi-math-qwen38"
+      },
+      "sources": [
+        "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF"
+      ],
+      "memory": "UD-Q4_K_XL weights about 17.6 GB plus cache/buffers; plan 24–32+ GB",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "local-lmstudio",
+      "title": "Unsloth Qwen3.8 via LM Studio",
+      "where": "local",
+      "description": "GUI alternative; set the model identifier and context exactly as documented.",
+      "testedPi": "0.85.1",
+      "license": "Apache-2.0",
+      "runtimeRevision": "Record installed runtime version; live validation pending",
+      "model": {
+        "provider": "math-lmstudio",
+        "id": "pi-math-qwen38"
+      },
+      "sources": [
+        "https://lmstudio.ai/docs/developer/openai-compat"
+      ],
+      "memory": "Same weights/cache requirements as the selected GGUF",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "local-bonsai",
+      "title": "Ternary Bonsai 27B",
+      "where": "local",
+      "description": "Experimental low-memory route. Requires the matching PrismML runtime; proof quality is unmeasured.",
+      "testedPi": "0.85.1",
+      "license": "Apache-2.0",
+      "runtimeRevision": "PrismML llama.cpp 9a9394a895b96003ca842a6041cb28ac49a108f7",
+      "model": {
+        "provider": "math-bonsai",
+        "id": "pi-math-bonsai-ternary"
+      },
+      "sources": [
+        "https://huggingface.co/prism-ml/Ternary-Bonsai-27B-gguf"
+      ],
+      "memory": "About 7.2 GB deployed language weights, plus working memory; 16 GB machine is a candidate to measure",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "local-bonsai-1bit",
+      "title": "1-bit Bonsai 27B",
+      "where": "local",
+      "description": "Experimental footprint-first route using PrismML's binary kernels.",
+      "testedPi": "0.85.1",
+      "license": "Apache-2.0",
+      "runtimeRevision": "PrismML llama.cpp 9a9394a895b96003ca842a6041cb28ac49a108f7",
+      "model": {
+        "provider": "math-bonsai",
+        "id": "pi-math-bonsai-1bit"
+      },
+      "sources": [
+        "https://huggingface.co/prism-ml/Bonsai-27B-gguf"
+      ],
+      "memory": "About 3.9 GB weights plus working memory; memory estimate is not a fit guarantee",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "local-ds4",
+      "title": "DwarfStar DeepSeek V4 Flash",
+      "where": "local",
+      "description": "Advanced engine with its own model files. API aliases do not identify the loaded weights.",
+      "testedPi": "0.85.1",
+      "license": "MIT",
+      "runtimeRevision": "ds4 8db1d1d155cb0400a86a86b9c62d0defb3a6148b",
+      "model": {
+        "provider": "math-ds4",
+        "id": "deepseek-v4-flash"
+      },
+      "sources": [
+        "https://github.com/antirez/ds4"
+      ],
+      "memory": "V4 Flash Q2: follow upstream's 96/128 GB starting guidance; SSD streaming is a separate route",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    },
+    {
+      "id": "local-vllm",
+      "title": "Qwen3.8 27B via vLLM",
+      "where": "local",
+      "description": "Advanced server route; use a supported model-specific recipe and reasoning parser.",
+      "testedPi": "0.85.1",
+      "license": "Apache-2.0",
+      "runtimeRevision": "Record installed runtime version; live validation pending",
+      "model": {
+        "provider": "math-vllm",
+        "id": "pi-math-qwen38"
+      },
+      "sources": [
+        "https://unsloth.ai/docs/models/qwen3.8"
+      ],
+      "memory": "Depends on precision/GPU; NVFP4 requires supported Blackwell hardware",
+      "validation": "source-reviewed; mock-transport-tested; live-validation-pending"
+    }
+  ]
+}

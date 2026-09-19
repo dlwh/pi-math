@@ -1,0 +1,35 @@
+{
+  "inference": {
+    "widths": [
+      1
+    ],
+    "sampleSize": 1,
+    "reviewers": 1,
+    "concurrency": 1,
+    "maxCalls": 32,
+    "maxOutputTokens": 4096,
+    "maxReservedOutputTokens": 131072,
+    "maxInputChars": 240000,
+    "timeoutMs": 600000,
+    "maxSectionAttempts": 3,
+    "maxRounds": 5,
+    "seed": 1729,
+    "models": {
+      "default": {
+        "provider": "math-ollama",
+        "id": "pi-math-qwen38"
+      }
+    },
+    "generation": {
+      "default": {
+        "reasoning": "medium",
+        "contextWindow": 32768,
+        "structuredOutput": "prompt"
+      }
+    },
+    "localOnly": true
+  },
+  "discoveryPolicy": "model",
+  "discoveryRounds": 10,
+  "lean": null
+}

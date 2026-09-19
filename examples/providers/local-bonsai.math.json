@@ -1,0 +1,38 @@
+{
+  "inference": {
+    "widths": [
+      1
+    ],
+    "sampleSize": 1,
+    "reviewers": 1,
+    "concurrency": 1,
+    "maxCalls": 32,
+    "maxOutputTokens": 4096,
+    "maxReservedOutputTokens": 131072,
+    "maxInputChars": 240000,
+    "timeoutMs": 600000,
+    "maxSectionAttempts": 3,
+    "maxRounds": 5,
+    "seed": 1729,
+    "models": {
+      "default": {
+        "provider": "math-bonsai",
+        "id": "pi-math-bonsai-ternary"
+      }
+    },
+    "generation": {
+      "default": {
+        "reasoning": "high",
+        "contextWindow": 32768,
+        "temperature": 0.7,
+        "topP": 0.95,
+        "topK": 20,
+        "structuredOutput": "prompt"
+      }
+    },
+    "localOnly": true
+  },
+  "discoveryPolicy": "model",
+  "discoveryRounds": 10,
+  "lean": null
+}

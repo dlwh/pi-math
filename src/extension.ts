@@ -17,7 +17,11 @@ import { LeanProver } from "./lean.ts";
 import { ModelPolicy, HeuristicPolicy } from "./policies.ts";
 import { emptyWorkbench, parseWorkbench, restoreWorkbench, SettingsSchema, WORKBENCH_TYPE, type Workbench } from "./workbench.ts";
 import { summary, exportWorkbench } from "./export.ts";
-const HELP = `/math start <question> — start a proof project
+import { presetMenu } from "./presets.ts";
+import { setupPreset, setupMessage, doctor, doctorMessage, probe, PROBE_NOTICE } from "./onboarding.ts";
+const HELP = `/math setup [preset] [--apply] — choose hosted or local models; preview before applying
+/math doctor [--probe] [--json] — check settings; optional two-request synthetic test
+/math start <question> — start a proof project
 /math status — inspect current work and objections
 /math step | run — advance once, or until a human gate/budget
 /math approve [reason] — approve the displayed route or plan
@@ -245,6 +249,34 @@ export default function mathExtension(pi: ExtensionAPI): void {
                 }
                 await exclusive(ctx, async (signal) => {
                     switch (command) {
+                        case "setup": {
+                            if (!rest) { show(presetMenu()); return; }
+                            const [id, ...flags] = pieces;
+                            if (flags.some(f => f !== "--apply")) throw new Error("Use /math setup <preset> [--apply]");
+                            const setup = await setupPreset(id!, flags.includes("--apply"), undefined, signal);
+                            if (setup.applied) {
+                                await ctx.modelRegistry.refresh({ allowNetwork: false, signal });
+                                if (ctx.modelRegistry.getError()) throw new Error("The provider file was saved, but Pi could not reload it. Inspect models.json and rerun setup after fixing it.");
+                                w.settings.inference = setup.preset.settings.inference;
+                                if (w.proof) w.proof.config = structuredClone(w.settings.inference);
+                                w.humanEvents.push({ action: "configure-inference", reason: `Applied preset ${setup.preset.id}`, at: new Date().toISOString(), artifactHash: hash(w.settings.inference) });
+                                await save(ctx);
+                            }
+                            show(setupMessage(setup));
+                            return;
+                        }
+                        case "doctor": {
+                            if (pieces.some(f => !["--probe", "--json"].includes(f))) throw new Error("Use /math doctor [--probe] [--json]");
+                            const cfg = w.proof?.config ?? w.settings.inference;
+                            const report = doctor(ctx, cfg);
+                            if (pieces.includes("--probe")) {
+                                show(PROBE_NOTICE);
+                                const tested = await probe(ctx, cfg, signal);
+                                show(pieces.includes("--json") ? JSON.stringify({ offline: report, probe: tested }, null, 2)
+                                    : `${tested.meaning}\nUsed ${tested.usage.calls} calls and ${tested.usage.reservedOutputTokens} reserved output tokens.\nUse /math start to begin your own question.`);
+                            } else show(pieces.includes("--json") ? JSON.stringify(report, null, 2) : doctorMessage(report));
+                            return;
+                        }
                         case "start":
                             if (!rest)
                                 throw new Error("Use /math start <question>");

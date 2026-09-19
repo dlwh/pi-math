@@ -1,0 +1,37 @@
+{
+  "inference": {
+    "widths": [
+      1
+    ],
+    "sampleSize": 1,
+    "reviewers": 1,
+    "concurrency": 2,
+    "maxCalls": 32,
+    "maxOutputTokens": 16384,
+    "maxReservedOutputTokens": 524288,
+    "maxInputChars": 240000,
+    "timeoutMs": 600000,
+    "maxSectionAttempts": 3,
+    "maxRounds": 5,
+    "seed": 1729,
+    "models": {
+      "default": {
+        "provider": "openrouter",
+        "id": "deepseek/deepseek-v4.1-flash"
+      }
+    },
+    "generation": {
+      "default": {
+        "reasoning": "high",
+        "contextWindow": 131072,
+        "temperature": 1,
+        "topP": 1,
+        "structuredOutput": "prompt"
+      }
+    },
+    "localOnly": false
+  },
+  "discoveryPolicy": "model",
+  "discoveryRounds": 10,
+  "lean": null
+}

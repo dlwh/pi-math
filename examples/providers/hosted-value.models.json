@@ -1,0 +1,38 @@
+{
+  "providers": {
+    "openrouter": {
+      "api": "openai-completions",
+      "baseUrl": "https://openrouter.ai/api/v1",
+      "models": [
+        {
+          "id": "deepseek/deepseek-v4.1-flash",
+          "name": "DeepSeek V4.1 Flash",
+          "reasoning": true,
+          "input": [
+            "text"
+          ],
+          "contextWindow": 1048576,
+          "maxTokens": 131072,
+          "cost": {
+            "input": 0.15,
+            "output": 0.6,
+            "cacheRead": 0.15,
+            "cacheWrite": 0.15
+          },
+          "compat": {
+            "supportsStore": false,
+            "supportsDeveloperRole": false,
+            "supportsUsageInStreaming": true,
+            "supportsReasoningEffort": true,
+            "maxTokensField": "max_tokens",
+            "thinkingFormat": "openrouter",
+            "openRouterRouting": {
+              "allow_fallbacks": false,
+              "require_parameters": true
+            }
+          }
+        }
+      ]
+    }
+  }
+}
