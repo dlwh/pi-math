@@ -2,7 +2,7 @@ import { readFile, lstat, mkdir, open, rename, unlink, writeFile } from "node:fs
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { isDeepStrictEqual } from "node:util";
-import { getAgentDir, withFileMutationQueue } from "@earendil-works/pi-coding-agent";
+import { getAgentDir, withFileMutationQueue, VERSION } from "@earendil-works/pi-coding-agent";
 import { z } from "zod";
 import { getPreset, PRESET_REVISION, type Preset } from "./presets.ts";
 import { isLoopback, PiWorker, workerSettings, type WorkerContext } from "./adapter.ts";
@@ -109,6 +109,7 @@ export function doctor(ctx: WorkerContext, config: Config): DoctorReport {
     const checks: Check[] = [], workers: DoctorReport["workers"] = [];
     const [major, minor] = process.versions.node.split(".").map(Number);
     checks.push({ level: major! > 22 || major === 22 && minor! >= 19 ? "ok" : "error", message: `Node ${process.versions.node}; requires 22.19 or later.` });
+    checks.push({ level: VERSION === "0.85.1" ? "ok" : "warning", message: `Pi ${VERSION}; integration tested with 0.85.1. Other versions need compatibility validation.` });
     if (ctx.modelRegistry.getError()) checks.push({ level: "error", message: "Pi reports a model configuration error. Inspect models.json and use /model to reload it." });
     const roles = new Set([...ROLES, ...Object.keys(config.models), ...Object.keys(config.generation)]);
     for (const role of roles) {

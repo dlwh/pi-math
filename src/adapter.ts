@@ -6,6 +6,7 @@ import { generationFor, type Config, type Generation } from "./schema.ts";
 export type WorkerContext = Pick<ExtensionContext, "model" | "modelRegistry" | "scopedModels">;
 type Effort = "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
 const SAMPLING = new Set(["temperature", "top_p", "top_k", "min_p", "presence_penalty", "frequency_penalty", "repetition_penalty", "seed"]);
+const OPENAI_APIS = ["openai-completions", "openai-responses", "openai-codex-responses", "azure-openai-responses"];
 const LEVELS: Effort[] = ["high", "medium", "low", "xhigh", "max", "minimal"];
 
 export function isLoopback(baseUrl: string): boolean {
@@ -45,6 +46,13 @@ export function resolveReasoning(model: Model<Api>, g: Generation): Effort | "of
     const effort = requested === "auto" ? LEVELS.find(l => model.thinkingLevelMap?.[l] !== null) : requested;
     if (!effort || model.thinkingLevelMap?.[effort] === null)
         throw new Error(`Reasoning setting ${requested} is unsupported by this model. Inspect its supported levels in Pi.`);
+    if (effort === "off" && model.api === "openai-completions") {
+        const format = (model as Model<"openai-completions">).compat?.thinkingFormat;
+        if (!format || format === "openai") {
+            if (typeof model.thinkingLevelMap?.off !== "string") throw new Error("This model does not declare an explicit off mapping. Use provider defaults or configure a supported off value.");
+        }
+    }
+    if (effort === "off" && model.api !== "openai-completions") throw new Error("Explicit off control currently requires a declared OpenAI-completions mapping. Use provider defaults for this API.");
     return effort;
 }
 /** Deliberately conservative byte-based estimate, not a model tokenizer. */
@@ -53,7 +61,7 @@ export function estimateInputTokens(system: string, prompt: string): number {
 }
 export function workerSettings(ctx: WorkerContext, config: Config, role: string) {
     const model = selectWorkerModel(ctx, config, role), generation = generationFor(config, role);
-    const reasoning = resolveReasoning(model, generation);
+    const reasoning = !OPENAI_APIS.includes(model.api) && ["auto", "default"].includes(String(generation.reasoning ?? "auto")) ? "default" : resolveReasoning(model, generation);
     const contextWindow = Math.min(model.contextWindow || Infinity, generation.contextWindow ?? Infinity);
     const maxOutputTokens = generation.maxOutputTokens ?? config.maxOutputTokens;
     if (model.maxTokens && maxOutputTokens > model.maxTokens)
@@ -70,6 +78,12 @@ export function workerSettings(ctx: WorkerContext, config: Config, role: string)
     }
     if (generation.structuredOutput === "json-schema" && model.api !== "openai-completions")
         throw new Error("Native JSON Schema mode currently requires openai-completions. Use prompt mode for other Pi APIs.");
+    const openAI = OPENAI_APIS.includes(model.api);
+    if (!openAI && generation.reasoning !== undefined && !["auto", "default"].includes(String(generation.reasoning)))
+        throw new Error("Explicit reasoning controls currently support OpenAI-compatible Pi APIs. Select a supported preset or use provider defaults.");
+    const sampling = [generation.temperature, generation.topP, generation.topK, generation.minP].some(v => v !== undefined) || Object.keys(model.samplingParams ?? {}).length > 0;
+    if (!openAI && (sampling || generation.thinkingBudget !== undefined)) throw new Error("Sampling/thinking-budget overrides currently require an OpenAI-compatible API.");
+    if (model.provider === "moonshotai" && model.id === "kimi-k3" && sampling) throw new Error("Kimi K3's direct API fixes sampling parameters; omit sampling overrides.");
     return { model, generation, reasoning, contextWindow, maxOutputTokens };
 }
 function object(value: unknown): Record<string, unknown> {
@@ -86,16 +100,10 @@ export class PiWorker implements Worker {
         if (inputEstimate + request.maxOutputTokens > contextWindow)
             throw new Error(`Conservative input estimate (${inputEstimate}) plus output (${request.maxOutputTokens}) exceeds context (${contextWindow}). Narrow the task or configure a larger actual server context.`);
         if (model.maxTokens && request.maxOutputTokens > model.maxTokens) throw new Error("Reserved output exceeds model limit");
-        const openAI = ["openai-completions", "openai-responses", "openai-codex-responses", "azure-openai-responses"].includes(model.api);
-        if (!openAI && g.reasoning !== undefined && !["auto", "default"].includes(String(g.reasoning)))
-            throw new Error("Explicit reasoning controls currently support OpenAI-compatible Pi APIs. Select a supported preset or use provider defaults.");
+        const openAI = OPENAI_APIS.includes(model.api);
         const sampling: Record<string, number> = { ...model.samplingParams } as Record<string, number>;
         for (const [key, value] of Object.entries({ temperature: g.temperature, top_p: g.topP, top_k: g.topK, min_p: g.minP }))
             if (value !== undefined) sampling[key] = value;
-        if (model.provider === "moonshotai" && model.id === "kimi-k3" && Object.keys(sampling).length)
-            throw new Error("Kimi K3's direct API fixes sampling parameters; omit sampling overrides.");
-        if (!openAI && (Object.keys(sampling).length || g.thinkingBudget !== undefined))
-            throw new Error("Sampling/thinking-budget overrides currently require an OpenAI-compatible API.");
         const options: ModelsApiStreamOptions<Api> = {
             signal: request.signal, maxTokens: request.maxOutputTokens, maxRetries: 0, timeoutMs: this.config.timeoutMs,
             ...(openAI && typeof reasoning === "string" && LEVELS.includes(reasoning as Effort) ? { reasoningEffort: reasoning as Effort } : {}),

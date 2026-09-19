@@ -6,25 +6,36 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { ModelRegistry, ModelRuntime } from "@earendil-works/pi-coding-agent";
 import { z } from "zod";
-import { PiWorker, isLoopback } from "../src/adapter.ts";
+import { PiWorker, isLoopback, workerSettings } from "../src/adapter.ts";
 import { Broker } from "../src/inference.ts";
+import { PRESETS } from "../src/presets.ts";
+import { probe } from "../src/onboarding.ts";
 import { ConfigSchema, generationFor } from "../src/schema.ts";
 
 async function fixture(compat: Record<string, unknown> = {}, extra: Record<string, unknown> = {}) {
+    const modelId = typeof extra.id === "string" ? extra.id : "deepseek-v4.1-flash";
     const dir = await mkdtemp(join(tmpdir(), "pi-math-http-"));
     const seen: Record<string, any>[] = [];
-    let reply = { status: 200, content: '{"answer":4}', finish: "stop", tool: false, reasoning: true, redirect: false };
+    let sawRequest!: () => void;
+    const received = new Promise<void>(resolve => { sawRequest = resolve; });
+    let reply = { status: 200, content: '{"answer":4}', finish: "stop", tool: false, reasoning: true, redirect: false, hang: false, disconnect: false, probe: false };
     const server = createServer(async (req, res) => {
         let body = "";
         for await (const chunk of req) body += chunk;
-        seen.push(JSON.parse(body));
+        seen.push(JSON.parse(body)); sawRequest();
+        if (reply.hang) return;
+        if (reply.disconnect) { req.socket.destroy(); return; }
         if (reply.redirect) { res.writeHead(307, { location: "http://example.invalid/v1/chat/completions" }); res.end(); return; }
         if (reply.status !== 200) { res.writeHead(reply.status, { "content-type": "application/json" }); res.end(JSON.stringify({ error: { message: "fixture error" } })); return; }
         res.writeHead(200, { "content-type": "text/event-stream" });
         const delta = (d: unknown, finish_reason: string | null = null) => res.write(`data: ${JSON.stringify({ id: "fixture", model: "deepseek-v4.1-flash", object: "chat.completion.chunk", choices: [{ index: 0, delta: d, finish_reason }] })}\n\n`);
         if (reply.reasoning) delta({ reasoning_content: "Private scratch work is not final JSON." });
         if (reply.tool) delta({ tool_calls: [{ index: 0, id: "bad", type: "function", function: { name: "shell", arguments: "{}" } }] });
-        else delta({ content: reply.content });
+        else {
+            const review = { verdict: "reject", summary: "2 is an even prime", issues: [{ claim: "All primes odd", reason: "2 is even", severity: "fatal", scope: "target", sections: [] }], resolved: [] };
+            const content = reply.probe ? JSON.stringify(seen.length === 1 ? { answer: 4, explanation: "Two pairs make four" } : review) : reply.content;
+            delta({ content });
+        }
         delta({}, reply.finish);
         res.write(`data: ${JSON.stringify({ choices: [], usage: { prompt_tokens: 15, completion_tokens: 20, total_tokens: 35 } })}\n\n`);
         res.end("data: [DONE]\n\n");
@@ -39,8 +50,8 @@ async function fixture(compat: Record<string, unknown> = {}, extra: Record<strin
     const runtime = await ModelRuntime.create({ modelsPath: join(dir, "models.json"), authPath: join(dir, "auth.json"), modelsStorePath: join(dir, "store.json"), allowModelNetwork: false });
     const registry = new ModelRegistry(runtime);
     assert.equal(registry.getError(), undefined);
-    const ctx = { model: registry.find("fixture", "deepseek-v4.1-flash"), modelRegistry: registry, scopedModels: [] };
-    return { ctx, seen, set: (patch: Partial<typeof reply>) => { reply = { ...reply, ...patch }; }, cleanup: async () => {
+    const ctx = { model: registry.find("fixture", modelId), modelRegistry: registry, scopedModels: [] };
+    return { ctx, seen, received, set: (patch: Partial<typeof reply>) => { reply = { ...reply, ...patch }; }, cleanup: async () => {
         server.closeAllConnections(); await new Promise<void>(resolve => server.close(() => resolve())); await rm(dir, { recursive: true, force: true });
     } };
 }
@@ -151,5 +162,101 @@ test("local-only workers reject cloud destinations and HTTP redirects", async ()
         f.set({ redirect: true });
         await assert.rejects(new Broker(new PiWorker(f.ctx, cfg), cfg).ask("test", "Compute", {}, answer));
         assert.equal(f.seen.length, 1);
+    } finally { await f.cleanup(); }
+});
+
+
+test("explicit doctor probe makes only two bounded synthetic requests through Pi", async () => {
+    const f = await fixture();
+    try {
+        f.set({ probe: true });
+        const cfg = ConfigSchema.parse({ maxOutputTokens: 16384, generation: { "section/generate": { maxOutputTokens: 12000 }, "verify/critic": { maxOutputTokens: 10000 } } });
+        const result = await probe(f.ctx, cfg);
+        assert.equal(result.ok, true); assert.equal(result.usage.calls, 2);
+        assert.equal(result.usage.reservedOutputTokens, 8192);
+        assert.ok(f.seen.every(p => p.max_tokens === 4096));
+        assert.equal(result.records.length, 2);
+    } finally { await f.cleanup(); }
+});
+
+test("real HTTP disconnects and timeouts terminate without retrying or dispatching queued work", async () => {
+    const f = await fixture();
+    try {
+        f.set({ disconnect: true });
+        const cfg = ConfigSchema.parse({ concurrency: 1, timeoutMs: 1000 });
+        await assert.rejects(new Broker(new PiWorker(f.ctx, cfg), cfg).ask("test", "Compute", {}, answer));
+        assert.equal(f.seen.length, 1);
+        f.set({ disconnect: false, hang: true });
+        const broker = new Broker(new PiWorker(f.ctx, cfg), cfg);
+        const results = await Promise.allSettled([broker.ask("test", "First", {}, answer), broker.ask("test", "Queued", {}, answer)]);
+        assert.ok(results.every(r => r.status === "rejected"));
+        assert.equal(broker.usage.calls, 1);
+        assert.equal(f.seen.length, 2);
+    } finally { await f.cleanup(); }
+});
+
+
+test("every preset emits its declared reasoning and cap through the actual Pi HTTP client", async () => {
+    for (const p of PRESETS) {
+        const provider = p.providers[p.model.provider]!;
+        const model = (provider.models as Record<string, any>[])[0]!;
+        const f = await fixture(model.compat, { id: p.model.id, thinkingLevelMap: model.thinkingLevelMap ?? {}, maxTokens: model.maxTokens, contextWindow: model.contextWindow });
+        try {
+            const cfg = ConfigSchema.parse({ ...p.settings.inference, localOnly: true, models: { default: { provider: "fixture", id: p.model.id } } });
+            await new Broker(new PiWorker(f.ctx, cfg), cfg).ask("section/generate", "Compute", {}, answer);
+            const sent = f.seen[0]!;
+            assert.equal(sent.model, p.model.id, p.id);
+            assert.equal(sent.max_tokens, cfg.maxOutputTokens, p.id);
+            const format = model.compat.thinkingFormat;
+            if (format === "openrouter") assert.equal(sent.reasoning.effort, cfg.generation.default!.reasoning, p.id);
+            else if (format === "chat-template") { assert.equal(sent.chat_template_kwargs.enable_thinking, true, p.id); assert.equal(sent.chat_template_kwargs.reasoning_effort, "medium", p.id); }
+            else if (format === "qwen-chat-template") assert.equal(sent.chat_template_kwargs.enable_thinking, true, p.id);
+            else if (format === "deepseek") assert.equal(sent.thinking.type, "enabled", p.id);
+            else assert.equal(sent.reasoning_effort, cfg.generation.default!.reasoning, p.id);
+        } finally { await f.cleanup(); }
+    }
+});
+
+test("alternate cap fields and final serialized payload guards cannot bypass reservations", async () => {
+    const f = await fixture({ maxTokensField: "max_completion_tokens" });
+    try {
+        const cfg = ConfigSchema.parse({});
+        await new Broker(new PiWorker(f.ctx, cfg), cfg).ask("test", "Compute", {}, answer);
+        assert.equal(f.seen[0]!.max_completion_tokens, 4096); assert.equal(f.seen[0]!.max_tokens, undefined);
+        const original = f.ctx.modelRegistry.complete.bind(f.ctx.modelRegistry);
+        for (const patch of [{ max_completion_tokens: 999999 }, { model: "another-model" }, { tools: [{ type: "function" }] }, { n: 2 }]) {
+            f.ctx.modelRegistry.complete = ((model: any, context: any, options: any) => original(model, context, { ...options, onPayload: async (payload: any) => ({ ...await options.onPayload(payload), ...patch }) })) as typeof f.ctx.modelRegistry.complete;
+            await assert.rejects(new Broker(new PiWorker(f.ctx, cfg), cfg).ask("test", "Compute", {}, answer));
+        }
+        assert.equal(f.seen.length, 1);
+    } finally { await f.cleanup(); }
+});
+
+
+test("preflight exposes provider defaults and rejects direct Kimi sampling or undeclared off", async () => {
+    const f = await fixture();
+    try {
+        const cfg = ConfigSchema.parse({ generation: { default: { reasoning: "off" } } });
+        assert.throws(() => workerSettings(f.ctx, cfg, "test"), /off mapping/);
+        const kimi = { ...f.ctx.model!, provider: "moonshotai", id: "kimi-k3" };
+        assert.throws(() => workerSettings({ ...f.ctx, model: kimi }, ConfigSchema.parse({ generation: { default: { temperature: 1 } } }), "test"), /fixes sampling/);
+        const other = { ...f.ctx.model!, api: "anthropic-messages" as const };
+        assert.equal(workerSettings({ ...f.ctx, model: other }, ConfigSchema.parse({}), "test").reasoning, "default");
+        assert.throws(() => workerSettings({ ...f.ctx, model: other }, ConfigSchema.parse({ generation: { default: { reasoning: "high" } } }), "test"), /OpenAI-compatible/);
+        assert.equal(f.seen.length, 0);
+    } finally { await f.cleanup(); }
+});
+
+test("cancellation aborts an actual waiting HTTP request and never starts its queued sibling", async () => {
+    const f = await fixture();
+    try {
+        f.set({ hang: true });
+        const stop = new AbortController(), cfg = ConfigSchema.parse({ concurrency: 1 });
+        const broker = new Broker(new PiWorker(f.ctx, cfg), cfg, undefined, stop.signal);
+        const settled = Promise.allSettled([broker.ask("test", "Active", {}, answer), broker.ask("test", "Queued", {}, answer)]);
+        await f.received;
+        stop.abort();
+        assert.ok((await settled).every(r => r.status === "rejected"));
+        assert.equal(f.seen.length, 1); assert.equal(broker.usage.calls, 1);
     } finally { await f.cleanup(); }
 });

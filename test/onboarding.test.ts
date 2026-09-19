@@ -4,7 +4,7 @@ import { mkdtemp, readFile, writeFile, rm, readdir, symlink, stat } from "node:f
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { ModelRegistry, ModelRuntime } from "@earendil-works/pi-coding-agent";
-import { PRESETS, getPreset } from "../src/presets.ts";
+import { PRESETS, PRESET_REVISION, getPreset } from "../src/presets.ts";
 import { doctor, doctorMessage, mergeProviders, setupMessage, setupPreset } from "../src/onboarding.ts";
 import { SettingsSchema, emptyWorkbench, parseWorkbench } from "../src/workbench.ts";
 import { ConfigSchema } from "../src/schema.ts";
@@ -101,6 +101,8 @@ test("local doctor checks every worker override and distinguishes the parent mod
 });
 
 test("generated provider examples stay identical to the versioned catalog", async () => {
+    const manifest = JSON.parse(await readFile(new URL("../examples/providers/manifest.json", import.meta.url), "utf8"));
+    assert.deepEqual(manifest, { revision: PRESET_REVISION, presets: PRESETS.map(({ providers: _p, settings: _s, ...metadata }) => metadata) });
     for (const p of PRESETS) {
         assert.deepEqual(JSON.parse(await readFile(new URL(`../examples/providers/${p.id}.models.json`, import.meta.url), "utf8")), { providers: p.providers });
         assert.deepEqual(JSON.parse(await readFile(new URL(`../examples/providers/${p.id}.math.json`, import.meta.url), "utf8")), p.settings);
