@@ -11,11 +11,11 @@
   "files": ["src", "docs", "examples", "README.md"],
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test test/*.test.ts",
-    "test:coverage": "tsx --test --experimental-test-coverage test/*.test.ts",
+    "test": "node --import tsx --test test/*.test.ts",
+    "test:coverage": "node --import tsx --test --experimental-test-coverage test/*.test.ts",
     "check": "npm run typecheck && npm test",
-    "demo": "tsx examples/demo.ts",
-    "ablate": "tsx examples/ablate.ts"
+    "demo": "node --import tsx examples/demo.ts",
+    "ablate": "node --import tsx examples/ablate.ts"
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",
