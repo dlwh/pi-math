@@ -1,0 +1,13 @@
+{
+  "discoveryPolicy": "symbolic",
+  "discoveryRounds": 10,
+  "inference": {
+    "widths": [4, 2, 1],
+    "sampleSize": 3,
+    "reviewers": 1,
+    "concurrency": 3,
+    "maxCalls": 160,
+    "maxOutputTokens": 4096,
+    "maxReservedOutputTokens": 655360
+  }
+}

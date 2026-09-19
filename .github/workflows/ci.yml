@@ -1,0 +1,29 @@
+name: Verify
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['22.19.0', '24']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - run: npm run demo
+      - run: npm run verify:certificate -- test-output/demo/certificate.json
+      - run: npm run ablate
+      - run: npm pack --dry-run
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evidence-node-${{ matrix.node }}
+          path: test-output/
